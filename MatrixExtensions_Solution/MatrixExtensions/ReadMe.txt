@@ -1,0 +1,1 @@
+﻿Still thinking about if an 'extended' array should keep it's values or be the transformed result..
