@@ -4,7 +4,7 @@ namespace MatrixExtensions
 {
     public static partial class Performance
     {
-        public static float[] Add(float[] arr, float[] summand)
+        public static float[] Add(this float[] arr, float[] summand)
         {
             int a = arr.Length;
 

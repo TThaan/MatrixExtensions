@@ -85,16 +85,25 @@ namespace MatrixExtensions
             return result;
         }
 
-        // Really??
-        public static float Transpose(this float[] arr)
+        // I define the first dimension of an array as the vertical dimension (column) of a matrix (or tensor).
+        // If the array is one-dimensional it depicts a column vector.
+        public static float[,] Transpose(this float[] arr)
         {
-            throw new NotImplementedException();
+            int a = arr.Length;
+            float[,] result = new float[1, a];
+
+            for (int i = 0; i < a; i++)
+            {
+                result[0, i] = arr[i];
+            }
+
+            return result;
         }
         public static float[,] Transpose(this float[,] arr)
         {
             int a = arr.GetLength(0);
             int b = arr.GetLength(1);
-            float[,] result = new float[a, b];
+            float[,] result = new float[b, a];
 
             for (int i = 0; i < a; i++)
             {
@@ -151,7 +160,7 @@ namespace MatrixExtensions
             return result;
         }
 
-        public static float[] Add(float[] arr, float summand)
+        public static float[] Add(this float[] arr, float summand)
         {
             int a = arr.Length;
 
@@ -162,7 +171,7 @@ namespace MatrixExtensions
 
             return arr;
         }
-        public static float[,] Add(float[,] arr, float summand)
+        public static float[,] Add(this float[,] arr, float summand)
         {
             int a = arr.GetLength(0);
             int b = arr.GetLength(1);
@@ -171,7 +180,7 @@ namespace MatrixExtensions
             {
                 for (int j = 0; j < b; j++)
                 {
-                    arr[j, i] += summand;
+                    arr[i, j] += summand;
                 }
             }
 
@@ -189,7 +198,7 @@ namespace MatrixExtensions
                 {
                     for (int k = 0; k < c; k++)
                     {
-                        arr[k, j, i] += summand;
+                        arr[i, j, k] += summand;
                     }
                 }
             }
@@ -211,7 +220,7 @@ namespace MatrixExtensions
                     {
                         for (int l = 0; l < d; k++)
                         {
-                            arr[l, k, j, i] += summand;
+                            arr[i, j, k, l] += summand;
                         }
                     }
                 }
@@ -220,7 +229,7 @@ namespace MatrixExtensions
             return arr;
         }
 
-        public static float[] Subtract(float[] arr, float subtrahend)
+        public static float[] Subtract(this float[] arr, float subtrahend)
         {
             int a = arr.Length;
 
@@ -231,7 +240,7 @@ namespace MatrixExtensions
 
             return arr;
         }
-        public static float[,] Subtract(float[,] arr, float subtrahend)
+        public static float[,] Subtract(this float[,] arr, float subtrahend)
         {
             int a = arr.GetLength(0);
             int b = arr.GetLength(1);
@@ -240,7 +249,7 @@ namespace MatrixExtensions
             {
                 for (int j = 0; j < b; j++)
                 {
-                    arr[j, i] -= subtrahend;
+                    arr[i, j] -= subtrahend;
                 }
             }
 
@@ -258,7 +267,7 @@ namespace MatrixExtensions
                 {
                     for (int k = 0; k < c; k++)
                     {
-                        arr[k, j, i] -= subtrahend;
+                        arr[i, j, k] -= subtrahend;
                     }
                 }
             }
@@ -280,7 +289,7 @@ namespace MatrixExtensions
                     {
                         for (int l = 0; l < d; k++)
                         {
-                            arr[l, k, j, i] -= subtrahend;
+                            arr[i, j, k, l] -= subtrahend;
                         }
                     }
                 }
@@ -289,7 +298,7 @@ namespace MatrixExtensions
             return arr;
         }
 
-        public static float[] Multiply(float[] arr, float multiplier)
+        public static float[] Multiply(this float[] arr, float multiplier)
         {
             int a = arr.Length;
 
@@ -300,7 +309,7 @@ namespace MatrixExtensions
 
             return arr;
         }
-        public static float[,] Multiply(float[,] arr, float multiplier)
+        public static float[,] Multiply(this float[,] arr, float multiplier)
         {
             int a = arr.GetLength(0);
             int b = arr.GetLength(1);
@@ -309,7 +318,7 @@ namespace MatrixExtensions
             {
                 for (int j = 0; j < b; j++)
                 {
-                    arr[j, i] *= multiplier;
+                    arr[i, j] *= multiplier;
                 }
             }
 
@@ -327,7 +336,7 @@ namespace MatrixExtensions
                 {
                     for (int k = 0; k < c; k++)
                     {
-                        arr[k, j, i] *= multiplier;
+                        arr[i, j, k] *= multiplier;
                     }
                 }
             }
@@ -349,7 +358,7 @@ namespace MatrixExtensions
                     {
                         for (int l = 0; l < d; k++)
                         {
-                            arr[l, k, j, i] *= multiplier;
+                            arr[i, j, k, l ] *= multiplier;
                         }
                     }
                 }
@@ -358,7 +367,7 @@ namespace MatrixExtensions
             return arr;
         }
 
-        public static float[] Divide(float[] arr, float divisor)
+        public static float[] Divide(this float[] arr, float divisor)
         {
             int a = arr.Length;
 
@@ -369,7 +378,7 @@ namespace MatrixExtensions
 
             return arr;
         }
-        public static float[,] Divide(float[,] arr, float divisor)
+        public static float[,] Divide(this float[,] arr, float divisor)
         {
             int a = arr.GetLength(0);
             int b = arr.GetLength(1);
@@ -378,7 +387,7 @@ namespace MatrixExtensions
             {
                 for (int j = 0; j < b; j++)
                 {
-                    arr[j, i] /= divisor;
+                    arr[i, j] /= divisor;
                 }
             }
 
@@ -396,7 +405,7 @@ namespace MatrixExtensions
                 {
                     for (int k = 0; k < c; k++)
                     {
-                        arr[k, j, i] /= divisor;
+                        arr[i, j, k] /= divisor;
                     }
                 }
             }
@@ -418,7 +427,7 @@ namespace MatrixExtensions
                     {
                         for (int l = 0; l < d; k++)
                         {
-                            arr[l, k, j, i] /= divisor;
+                            arr[i, j, k, l] /= divisor;
                         }
                     }
                 }
