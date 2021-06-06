@@ -4,7 +4,7 @@ using Microsoft.VisualStudio.TestTools.UnitTesting;
 namespace MatrixExtensionsTest
 {
     [TestClass]
-    public class PerformanceInclScalarTest
+    public class Performance_InclScalar_Test
     {
         #region Ignore this comment until it actually is true or delete it after you eventually made a final decision about naming conventions.
 
@@ -37,61 +37,7 @@ namespace MatrixExtensionsTest
             multiply_V4TandX, multiply_V4TTandX, multiply_M32andX, multiply_M32TandX,
             divide_V4TandX, divide_V4TTandX, divide_M32andX, divide_M32TandX;
 
-        //static readonly Matrix Expected_AdditionOfA32AndA32 = new Matrix(
-        //        new float[,]
-        //        {
-        //            {4, 18},
-        //            {-6, 36},
-        //            {14, 20}
-        //        });
-        //static readonly Matrix Expected_SubtractionOfA32AndA32 = new Matrix(
-        //        new float[,]
-        //        {
-        //            {0, 0},
-        //            {0, 0},
-        //            {0, 0}
-        //        });
-        //static readonly Matrix Expected_MultiplicationOfA32AndX = new Matrix(
-        //        new float[,]
-        //        {
-        //            {4, 18},
-        //            {-6, 36},
-        //            {14, 20}
-        //        });
-        //static readonly Matrix Expected_DivisionOfA32ByY = new Matrix(
-        //        new float[,]
-        //        {
-        //            {.2f, .9f},
-        //            {-.3f, 1.8f},
-        //            {.7f, 1}
-        //        });
-        //static readonly Matrix Expected_ScalarProductOfA32WithA32Transpose = new Matrix(
-        //        new float[,]
-        //        {
-        //            {85f, 156f, 104f },
-        //            {156f, 333f, 159f },
-        //            {104f, 159f, 149f }
-        //        });
-        //static readonly Matrix Expected_HadamarProductOfA32AndA32 = new Matrix(
-        //        new float[,]
-        //        {
-        //            {4, 81 },
-        //            {9, 324 },
-        //            {49,100 }
-        //        });
-
-
-        //static Matrix KroneckerProductOfA32AndA32Transpose = new Matrix(
-        //        new float[,]
-        //        {
-        //            {0, 0},
-        //            {0, 0},
-        //            {0, 0}
-        //        });
-
-        // ctor
-
-        static PerformanceInclScalarTest()
+        static Performance_InclScalar_Test()
         {
             ReSetSampleData();
             SetExpectedValues();
@@ -317,13 +263,13 @@ namespace MatrixExtensionsTest
             // For now I define a vector as a one-dimensional array having one row with 'n' values.
             v4 = new float[4]
                 {
-                1, 2, -3, 4
+                    1, 2, -3, 4
                 };
             // For now I define the transpose of a vector as a matrix with one column and 'm' rows (m = vector's n).
             // I could define the transpose of this 'm x 1' matrix again as either a vector or a '1 x n' matrix (n = untransposed matrix' m).
             v4T = new float[4, 1]
                 {
-                {1}, {2}, {-3}, {4}
+                    {1}, {2}, {-3}, {4}
                 };
             // For now I define the transpose of any one dimensional matrix, ie a vector, depicted as a two-dimensional array with one dimension sized 1,
             // as a two-dimensional array as well, just with the other dimension sized 1.
@@ -362,44 +308,44 @@ namespace MatrixExtensionsTest
                 };
             t235 = new float[2, 3, 5]
                 {
-                {
-                    { 1, 2, 3, 4, 5 },
-                    { 1, 2, 3, 4, 5 },
-                    { 1, 2, 3, 4, 5 }
-                },
-                {
-                    { 1, 2, 3, 4, 5 },
-                    { 1, 2, 3, 4, 5 },
-                    { 1, 2, 3, 4, 5 }
-                }
+                    {
+                        { 1, 2, 3, 4, 5 },
+                        { 1, 2, 3, 4, 5 },
+                        { 1, 2, 3, 4, 5 }
+                    },
+                    {
+                        { 1, 2, 3, 4, 5 },
+                        { 1, 2, 3, 4, 5 },
+                        { 1, 2, 3, 4, 5 }
+                    }
                 };
             t235T = new float[5, 3, 2]
                 {
-                {
-                    { 1, 1 },
-                    { 1, 1 },
-                    { 1, 1 }
-                },
-                {
-                    { 2, 2 },
-                    { 2, 2 },
-                    { 2, 2 }
-                },
-                {
-                    { 3, 3 },
-                    { 3, 3 },
-                    { 3, 3 }
-                },
-                {
-                    { 4, 4 },
-                    { 4, 4 },
-                    { 4, 4 }
-                },
-                {
-                    { 5, 5 },
-                    { 5, 5 },
-                    { 5, 5 }
-                }
+                    {
+                        { 1, 1 },
+                        { 1, 1 },
+                        { 1, 1 }
+                    },
+                    {
+                        { 2, 2 },
+                        { 2, 2 },
+                        { 2, 2 }
+                    },
+                    {
+                        { 3, 3 },
+                        { 3, 3 },
+                        { 3, 3 }
+                    },
+                    {
+                        { 4, 4 },
+                        { 4, 4 },
+                        { 4, 4 }
+                    },
+                    {
+                        { 5, 5 },
+                        { 5, 5 },
+                        { 5, 5 }
+                    }
                 };
         }
         private static void SetExpectedValues()

@@ -1,5 +1,14 @@
 ﻿using System;
 
+// Focusing on performance I decided to totally ignore DRY.
+// Each method should do its job without further method calls, no if clauses etc.
+
+// Furthermore I don't include any checks here, neither for nulled parameters or apropriate array sizes to perform certain matrix operations.
+// If you want all of this you can use my IMatrix library at a (pretty high) cost of performance though.
+
+// Each kind of array gets its own method. I did not use generic collections/interfaces or the Array class to reduce code.
+// This way there is no casting needed anywhere.
+
 namespace MatrixExtensions
 {
     public static partial class Performance
@@ -15,7 +24,7 @@ namespace MatrixExtensions
 
             return arr;
         }
-        public static float[,] Add(float[,] arr, float[,] summand)
+        public static float[,] Add(this float[,] arr, float[,] summand)
         {
             int a = arr.GetLength(0);
             int b = arr.GetLength(1);
@@ -24,7 +33,7 @@ namespace MatrixExtensions
             {
                 for (int j = 0; j < b; j++)
                 {
-                    arr[j, i] += summand[j, i];
+                    arr[i, j] += summand[i, j];
                 }
             }
 
@@ -73,7 +82,7 @@ namespace MatrixExtensions
             return arr;
         }
 
-        public static float[] Subtract(float[] arr, float[] subtrahend)
+        public static float[] Subtract(this float[] arr, float[] subtrahend)
         {
             int a = arr.Length;
 
@@ -84,7 +93,7 @@ namespace MatrixExtensions
 
             return arr;
         }
-        public static float[,] Subtract(float[,] arr, float[,] subtrahend)
+        public static float[,] Subtract(this float[,] arr, float[,] subtrahend)
         {
             int a = arr.GetLength(0);
             int b = arr.GetLength(1);
@@ -93,7 +102,7 @@ namespace MatrixExtensions
             {
                 for (int j = 0; j < b; j++)
                 {
-                    arr[j, i] -= subtrahend[j, i];
+                    arr[i, j] -= subtrahend[i, j];
                 }
             }
 
@@ -145,7 +154,7 @@ namespace MatrixExtensions
         /// <summary>
         /// Hadamard Product
         /// </summary>
-        public static float[] Multiply_Elementwise(float[] arr, float[] multiplier)
+        public static float[] Multiply_Elementwise(this float[] arr, float[] multiplier)
         {
             int a = arr.Length;
 
@@ -159,7 +168,7 @@ namespace MatrixExtensions
         /// <summary>
         /// Hadamard Product
         /// </summary>
-        public static float[,] Multiply_Elementwise(float[,] arr, float[,] multiplier)
+        public static float[,] Multiply_Elementwise(this float[,] arr, float[,] multiplier)
         {
             int a = arr.GetLength(0);
             int b = arr.GetLength(1);
@@ -168,7 +177,7 @@ namespace MatrixExtensions
             {
                 for (int j = 0; j < b; j++)
                 {
-                    arr[j, i] *= multiplier[j, i];
+                    arr[i, j] *= multiplier[i, j];
                 }
             }
 
@@ -225,36 +234,146 @@ namespace MatrixExtensions
 
         /// <summary>
         /// Scalar Product, DotProduct
+        ///  - (The second vector is automatically considered as its transpose.)
+        ///  or 
         /// (If vectors are identified with row matrices, the dot product is the 'Matrix Product' (a*b = AB^T).)
+        /// ?
         /// </summary>
-        public static float[] Multiply(float[] arr, float[] multiplier)
+        public static float Multiply_ScalarProduct(this float[] arr, float[] multiplier)
         {
+            float result = default;
             int a = arr.Length;
 
             for (int i = 0; i < a; i++)
             {
-                arr[i] *= multiplier[i];
+                result += arr[i] * multiplier[i];
             }
 
-            return arr;
+            return result;
         }
         /// <summary>
         /// Matrix Product
+        /// Check the dot product of two vectors, each defined as a 2D-array!
         /// </summary>
-        public static float[,] Multiply(float[,] arr, float[,] multiplier)
+        public static float[,] Multiply_MatrixProduct(this float[,] arr, float[,] multiplier) // Pass result either (vgl IMartix.PerformantOperations) so there is no need to instantiate a new array here?
         {
             int a = arr.GetLength(0);
-            int b = arr.GetLength(1);
+            int b = arr.GetLength(1);   // arr.GetLength(1) = multiplier.GetLength(0)
+            int b2 = multiplier.GetLength(1);
 
-            for (int i = 0; i < a; i++)
+            var result = new float[a, b2];
+
+            // For each column of multiplier
+            for (int y = 0; y < b2; y++)
             {
-                for (int j = 0; j < b; j++)
+                // and each row of arr
+                for (int i = 0; i < a; i++)
                 {
-                    arr[j, i] *= multiplier[j, i];
+                    // get the scalar product between that i-th row of arr and the i-th column of multiplier.
+                    for (int j = 0; j < b; j++)
+                    {
+                        result[i, y] += arr[i, j] * multiplier[j, y];
+                    }
                 }
             }
 
-            return arr;
+            return result;
+        }
+        /// <summary>
+        /// 'arr' is used as column vector here, i.e. a 'm x 1' matrix.
+        /// Thus 'multiplier' must have one row only, i.e. be a '1 x n' matrix, to allow a matrix product between the two.
+        /// </summary>
+        public static float[,] Multiply_ColumnVectorWithMatrix(this float[] arr, float[,] multiplier)
+        {
+            int a = arr.GetLength(0);
+            int b2 = multiplier.GetLength(1);
+
+            var result = new float[a, b2];
+
+            // For each column of multiplier
+            for (int y = 0; y < b2; y++)
+            {
+                // get the scalar product between arr and the y-th column of multiplier.
+                for (int j = 0; j < a; j++)
+                {
+                    result[j, y] = arr[j] * multiplier[0, y];
+                }
+            }
+
+            return result;
+        }
+        /// <summary>
+        /// 'arr' is used as row vector here, i.e. a '1 x n' matrix.
+        /// 'multiplier' can have multiple rows, each representing .. check: a row of the resulting vector/'1 x n' matrix (where n = m).
+        /// </summary>
+        public static float[,] Multiply_RowVectorWithMatrix(this float[] arr, float[,] multiplier)
+        {
+            int a = arr.Length;
+            int b2 = multiplier.GetLength(1);
+
+            var result = new float[1, b2];
+
+            // For each column of multiplier
+            for (int y = 0; y < b2; y++)
+            {
+                // get the scalar product between arr and the y-th column of multiplier.
+                for (int j = 0; j < a; j++)
+                {
+                    result[0, y] += arr[j] * multiplier[j, 0];
+                }
+            }
+
+            return result;
+        }
+        /// <summary>
+        /// 'multiplier' is used as column vector here, i.e. a 'm x 1' matrix.
+        /// 'arr' can have multiple rows, each representing a row of the resulting vector/'1 x n' matrix (where n = m).
+        /// </summary>
+        public static float[,] Multiply_MatrixWithColumnVector(this float[,] arr, float[] multiplier)
+        {
+            // Don't just call above method but repeat code here due to the performance drop of method calls. So ignore DRY!
+
+            int a = arr.GetLength(0);
+            int b = arr.GetLength(1);
+
+            var result = new float[a, 1];
+
+            // For each row of arr
+            for (int i = 0; i < a; i++)
+            {
+                // for each col of arr
+                for (int j = 0; j < b; j++)
+                {
+                    result[i, 0] += arr[i, j] * multiplier[j];
+                }
+            }
+
+            return result;
+        }
+        /// <summary>
+        /// 'multiplier' is used as row vector here, i.e. a '1 x n' matrix.
+        /// Thus 'arr' must have one column only, i.e. be a 'm x 1' matrix, to allow a matrix product between the two.
+        /// </summary>
+        public static float[,] Multiply_MatrixWithRowVector(this float[,] arr, float[] multiplier)
+        {
+            // Don't just call above method but repeat code here due to the performance drop of method calls. So ignore DRY!
+
+            int a = arr.GetLength(0);
+            int b2 = multiplier.Length;
+
+            var result = new float[a, b2];
+
+            // For each column of multiplier
+            for (int y = 0; y < b2; y++)
+            {
+                // get the scalar product between arr and the y-th column of multiplier.
+                for (int i = 0; i < a; i++)
+                {
+                    result[i, y] = arr[i, 0] * multiplier[y];
+                }
+            }
+
+            return result;
         }
         public static float[,,] Multiply(this float[,,] arr, float[,,] multiplier)
         {
@@ -303,26 +422,26 @@ namespace MatrixExtensions
         /// Cross Product, Vector Product
         /// 'Cross-multiplication' always starts with the second items, even if you don't use 3 elements per vector.
         /// </summary>
-        public static float[] Multiply_CrossWise(float[] arr, float[] multiplier)
-        {
-            int a = arr.Length;
+        //public static float[] Multiply_Crosswise(this float[] arr, float[] multiplier)
+        //{
+        //    int a = arr.Length;
 
-            for (int i = 0; i < a; i++)
-            {
-                if (i < a - 2)
-                    arr[i] = arr[i + 1] * multiplier[i + 2] - arr[i + 2] * multiplier[i + 1];
-                else if (i == a - 2)
-                    arr[i] = arr[i + 1] * multiplier[i] - arr[i] * multiplier[i + 1];
-                else
-                    arr[i] = arr[i] * multiplier[i + 1] - arr[i + 1] * multiplier[i];
-            }
+        //    for (int i = 0; i < a; i++)
+        //    {
+        //        if (i < a - 2)
+        //            arr[i] = arr[i + 1] * multiplier[i + 2] - arr[i + 2] * multiplier[i + 1];
+        //        else if (i == a - 2)
+        //            arr[i] = arr[i + 1] * multiplier[i] - arr[i] * multiplier[i + 1];
+        //        else
+        //            arr[i] = arr[i] * multiplier[i + 1] - arr[i + 1] * multiplier[i];
+        //    }
 
-            return arr;
-        }
+        //    return arr;
+        //}
         /// <summary>
         /// Matrix Product
         /// </summary>
-        public static float[,] Multiply_CrossWise(float[,] arr, float[,] multiplier)
+        public static float[,] Multiply_Crosswise(this float[,] arr, float[,] multiplier)
         {
             int a = arr.GetLength(0);
             int b = arr.GetLength(1);
@@ -337,7 +456,7 @@ namespace MatrixExtensions
 
             return arr;
         }
-        public static float[,,] Multiply_CrossWise(this float[,,] arr, float[,,] multiplier)
+        public static float[,,] Multiply_Crosswise(this float[,,] arr, float[,,] multiplier)
         {
             int a = arr.GetLength(0);
             int b = arr.GetLength(1);
@@ -356,7 +475,7 @@ namespace MatrixExtensions
 
             return arr;
         }
-        public static float[,,,] Multiply_CrossWise(this float[,,,] arr, float[,,,] multiplier)
+        public static float[,,,] Multiply_Crosswise(this float[,,,] arr, float[,,,] multiplier)
         {
             int a = arr.GetLength(0);
             int b = arr.GetLength(1);
@@ -380,18 +499,18 @@ namespace MatrixExtensions
             return arr;
         }
 
-        public static float[] Divide(float[] arr, float[] divisor)
+        public static float[] Divide(this float[] arr, float[] divisor)
         {
             int a = arr.Length;
 
             for (int i = 0; i < a; i++)
             {
-                throw new NotImplementedException();
+                arr[i] /= divisor[i];
             }
 
             return arr;
         }
-        public static float[,] Divide(float[,] arr, float[,] divisor)
+        public static float[,] Divide(this float[,] arr, float[,] divisor)
         {
             int a = arr.GetLength(0);
             int b = arr.GetLength(1);
@@ -400,7 +519,7 @@ namespace MatrixExtensions
             {
                 for (int j = 0; j < b; j++)
                 {
-                    throw new NotImplementedException();
+                    arr[i, j] /= divisor[i, j];
                 }
             }
 
