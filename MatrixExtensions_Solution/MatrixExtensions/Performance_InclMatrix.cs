@@ -419,25 +419,16 @@ namespace MatrixExtensions
         }
 
         /// <summary>
-        /// Cross Product, Vector Product
-        /// 'Cross-multiplication' always starts with the second items, even if you don't use 3 elements per vector.
+        /// Cross/Vector - Product. Use only with 3 dimensional vectors!
         /// </summary>
-        //public static float[] Multiply_Crosswise(this float[] arr, float[] multiplier)
-        //{
-        //    int a = arr.Length;
+        public static float[] Multiply_Crosswise(this float[] arr, float[] multiplier)
+        {
+            arr[0] = arr[1] * multiplier[2] - arr[2] * multiplier[1];
+            arr[1] = arr[2] * multiplier[0] - arr[0] * multiplier[2];
+            arr[2] = arr[0] * multiplier[1] - arr[1] * multiplier[0];
 
-        //    for (int i = 0; i < a; i++)
-        //    {
-        //        if (i < a - 2)
-        //            arr[i] = arr[i + 1] * multiplier[i + 2] - arr[i + 2] * multiplier[i + 1];
-        //        else if (i == a - 2)
-        //            arr[i] = arr[i + 1] * multiplier[i] - arr[i] * multiplier[i + 1];
-        //        else
-        //            arr[i] = arr[i] * multiplier[i + 1] - arr[i + 1] * multiplier[i];
-        //    }
-
-        //    return arr;
-        //}
+            return arr;
+        }
         /// <summary>
         /// Matrix Product
         /// </summary>
@@ -641,5 +632,29 @@ namespace MatrixExtensions
         //{
 
         //}
+        public static float[,] AsMatrixWithOneColumn(this float[] arr)
+        {
+            int arrLength = arr.Length;
+            float[,] result = new float[arrLength, 1];
+
+            for (int i = 0; i < arrLength; i++)
+            {
+                result[i, 0] = arr[i];
+            }
+
+            return result;
+        }
+        public static float[,] AsMatrixWithOneRow(this float[] arr)
+        {
+            int arrLength = arr.Length;
+            float[,] result = new float[1, arrLength];
+
+            for (int i = 0; i < arrLength; i++)
+            {
+                result[0, i] = arr[i];
+            }
+
+            return result;
+        }
     }
 }
