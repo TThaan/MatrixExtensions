@@ -51,7 +51,7 @@ namespace MatrixExtensions
                 {
                     for (int k = 0; k < c; k++)
                     {
-                        arr[k, j, i] += summand[k, j, i];
+                        arr[i, j, k] += summand[i, j, k];
                     }
                 }
             }
@@ -73,7 +73,7 @@ namespace MatrixExtensions
                     {
                         for (int l = 0; l < d; k++)
                         {
-                            arr[l, k, j, i] += summand[l, k, j, i];
+                            arr[i, j, k, l] += summand[i, j, k, l];
                         }
                     }
                 }
@@ -142,7 +142,76 @@ namespace MatrixExtensions
                     {
                         for (int l = 0; l < d; k++)
                         {
-                            arr[l, k, j, i] -= subtrahend[l, k, j, i];
+                            arr[i, j, k, l] -= subtrahend[i, j, k, l];
+                        }
+                    }
+                }
+            }
+
+            return arr;
+        }
+
+        public static float[] Divide(this float[] arr, float[] divisor)
+        {
+            int a = arr.Length;
+
+            for (int i = 0; i < a; i++)
+            {
+                arr[i] /= divisor[i];
+            }
+
+            return arr;
+        }
+        public static float[,] Divide(this float[,] arr, float[,] divisor)
+        {
+            int a = arr.GetLength(0);
+            int b = arr.GetLength(1);
+
+            for (int i = 0; i < a; i++)
+            {
+                for (int j = 0; j < b; j++)
+                {
+                    arr[i, j] /= divisor[i, j];
+                }
+            }
+
+            return arr;
+        }
+        public static float[,,] Divide(this float[,,] arr, float[,,] divisor)
+        {
+            int a = arr.GetLength(0);
+            int b = arr.GetLength(1);
+            int c = arr.GetLength(2);
+
+            for (int i = 0; i < a; i++)
+            {
+                for (int j = 0; j < b; j++)
+                {
+                    for (int k = 0; k < c; k++)
+                    {
+                        arr[i, j, k] /= divisor[i, j, k];
+                    }
+                }
+            }
+
+            return arr;
+        }
+        public static float[,,,] Divide(this float[,,,] arr, float[,,,] divisor)
+        {
+            int a = arr.GetLength(0);
+            int b = arr.GetLength(1);
+            int c = arr.GetLength(2);
+            int d = arr.GetLength(3);
+
+            for (int i = 0; i < a; i++)
+            {
+                for (int j = 0; j < b; j++)
+                {
+                    for (int k = 0; k < c; k++)
+                    {
+                        for (int l = 0; l < d; k++)
+                        {
+                            arr[i, j, k, l] /= divisor[i, j, k, l]; 
                         }
                     }
                 }
@@ -198,7 +267,7 @@ namespace MatrixExtensions
                 {
                     for (int k = 0; k < c; k++)
                     {
-                        arr[k, j, i] *= multiplier[k, j, i];
+                        arr[i, j, k] *= multiplier[i, j, k];
                     }
                 }
             }
@@ -223,7 +292,7 @@ namespace MatrixExtensions
                     {
                         for (int l = 0; l < d; k++)
                         {
-                            arr[l, k, j, i] *= multiplier[l, k, j, i];
+                            arr[i, j, k, l] *= multiplier[i, j, k, l];
                         }
                     }
                 }
@@ -375,48 +444,6 @@ namespace MatrixExtensions
 
             return result;
         }
-        public static float[,,] Multiply(this float[,,] arr, float[,,] multiplier)
-        {
-            int a = arr.GetLength(0);
-            int b = arr.GetLength(1);
-            int c = arr.GetLength(2);
-
-            for (int i = 0; i < a; i++)
-            {
-                for (int j = 0; j < b; j++)
-                {
-                    for (int k = 0; k < c; k++)
-                    {
-                        throw new NotImplementedException();
-                    }
-                }
-            }
-
-            return arr;
-        }
-        public static float[,,,] Multiply(this float[,,,] arr, float[,,,] multiplier)
-        {
-            int a = arr.GetLength(0);
-            int b = arr.GetLength(1);
-            int c = arr.GetLength(2);
-            int d = arr.GetLength(3);
-
-            for (int i = 0; i < a; i++)
-            {
-                for (int j = 0; j < b; j++)
-                {
-                    for (int k = 0; k < c; k++)
-                    {
-                        for (int l = 0; l < d; k++)
-                        {
-                            throw new NotImplementedException();
-                        }
-                    }
-                }
-            }
-
-            return arr;
-        }
 
         /// <summary>
         /// Cross/Vector - Product. Use only with 3 dimensional vectors!
@@ -429,139 +456,10 @@ namespace MatrixExtensions
 
             return arr;
         }
-        /// <summary>
-        /// Matrix Product
-        /// </summary>
-        public static float[,] Multiply_Crosswise(this float[,] arr, float[,] multiplier)
-        {
-            int a = arr.GetLength(0);
-            int b = arr.GetLength(1);
-
-            for (int i = 0; i < a; i++)
-            {
-                for (int j = 0; j < b; j++)
-                {
-                    throw new NotImplementedException();
-                }
-            }
-
-            return arr;
-        }
-        public static float[,,] Multiply_Crosswise(this float[,,] arr, float[,,] multiplier)
-        {
-            int a = arr.GetLength(0);
-            int b = arr.GetLength(1);
-            int c = arr.GetLength(2);
-
-            for (int i = 0; i < a; i++)
-            {
-                for (int j = 0; j < b; j++)
-                {
-                    for (int k = 0; k < c; k++)
-                    {
-                        throw new NotImplementedException();
-                    }
-                }
-            }
-
-            return arr;
-        }
-        public static float[,,,] Multiply_Crosswise(this float[,,,] arr, float[,,,] multiplier)
-        {
-            int a = arr.GetLength(0);
-            int b = arr.GetLength(1);
-            int c = arr.GetLength(2);
-            int d = arr.GetLength(3);
-
-            for (int i = 0; i < a; i++)
-            {
-                for (int j = 0; j < b; j++)
-                {
-                    for (int k = 0; k < c; k++)
-                    {
-                        for (int l = 0; l < d; k++)
-                        {
-                            throw new NotImplementedException();
-                        }
-                    }
-                }
-            }
-
-            return arr;
-        }
-
-        public static float[] Divide(this float[] arr, float[] divisor)
-        {
-            int a = arr.Length;
-
-            for (int i = 0; i < a; i++)
-            {
-                arr[i] /= divisor[i];
-            }
-
-            return arr;
-        }
-        public static float[,] Divide(this float[,] arr, float[,] divisor)
-        {
-            int a = arr.GetLength(0);
-            int b = arr.GetLength(1);
-
-            for (int i = 0; i < a; i++)
-            {
-                for (int j = 0; j < b; j++)
-                {
-                    arr[i, j] /= divisor[i, j];
-                }
-            }
-
-            return arr;
-        }
-        public static float[,,] Divide(this float[,,] arr, float[,,] divisor)
-        {
-            int a = arr.GetLength(0);
-            int b = arr.GetLength(1);
-            int c = arr.GetLength(2);
-
-            for (int i = 0; i < a; i++)
-            {
-                for (int j = 0; j < b; j++)
-                {
-                    for (int k = 0; k < c; k++)
-                    {
-                        throw new NotImplementedException();
-                    }
-                }
-            }
-
-            return arr;
-        }
-        public static float[,,,] Divide(this float[,,,] arr, float[,,,] divisor)
-        {
-            int a = arr.GetLength(0);
-            int b = arr.GetLength(1);
-            int c = arr.GetLength(2);
-            int d = arr.GetLength(3);
-
-            for (int i = 0; i < a; i++)
-            {
-                for (int j = 0; j < b; j++)
-                {
-                    for (int k = 0; k < c; k++)
-                    {
-                        for (int l = 0; l < d; k++)
-                        {
-                            throw new NotImplementedException();
-                        }
-                    }
-                }
-            }
-
-            return arr;
-        }
 
         public static float[] ForEach(this float[] arr, Func<float, float> func)
         {
-            int a = arr.GetLength(0);
+            int a = arr.Length;
             
             for (int i = 0; i < a; i++)
             {
@@ -617,7 +515,7 @@ namespace MatrixExtensions
                 {
                     for (int k = 0; k < c; k++)
                     {
-                        for (int l = 0; l < c; l++)
+                        for (int l = 0; l < d; l++)
                         {
                             arr[i, j, k, l] = func(arr[i, j, k, l]);
                         }
@@ -628,10 +526,79 @@ namespace MatrixExtensions
             return arr;
         }
 
-        //public static bool Equals(this float[] arr, float[] other)
-        //{
+        public static bool Equals(this float[] arr, float[] other)
+        {
+            int a = arr.Length;
 
-        //}
+            for (int i = 0; i < a; i++)
+            {
+                if (arr[i] != other[i])
+                    return false;                
+            }
+
+            return true;
+        }
+        public static bool Equals(this float[,] arr, float[,] other)
+        {
+            int a = arr.GetLength(0);
+            int b = arr.GetLength(1);
+
+            for (int i = 0; i < a; i++)
+            {
+                for (int j = 0; j < b; j++)
+                {
+                    if (arr[i, j] != other[i, j])
+                        return false;
+                }
+            }
+
+            return true;
+        }
+        public static bool Equals(this float[,,] arr, float[,,] other)
+        {
+            int a = arr.GetLength(0);
+            int b = arr.GetLength(1);
+            int c = arr.GetLength(2);
+
+            for (int i = 0; i < a; i++)
+            {
+                for (int j = 0; j < b; j++)
+                {
+                    for (int k = 0; k < c; k++)
+                    {
+                        if (arr[i, j, k] != other[i, j, k])
+                            return false;
+                    }
+                }
+            }
+
+            return true;
+        }
+        public static bool Equals(this float[,,,] arr, float[,,,] other)
+        {
+            int a = arr.GetLength(0);
+            int b = arr.GetLength(1);
+            int c = arr.GetLength(2);
+            int d = arr.GetLength(3);
+
+            for (int i = 0; i < a; i++)
+            {
+                for (int j = 0; j < b; j++)
+                {
+                    for (int k = 0; k < c; k++)
+                    {
+                        for (int l = 0; l < d; l++)
+                        {
+                            if (arr[i, j, k, l] != other[i, j, k, l])
+                                return false;
+                        }
+                    }
+                }
+            }
+
+            return true;
+        }
+        
         public static float[,] AsMatrixWithOneColumn(this float[] arr)
         {
             int arrLength = arr.Length;
