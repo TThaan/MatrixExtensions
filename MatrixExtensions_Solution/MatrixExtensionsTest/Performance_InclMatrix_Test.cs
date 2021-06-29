@@ -79,7 +79,7 @@ namespace MatrixExtensionsTest
         public void Test_TwoVectors_MultiplyScalarProduct()
         {
             var expect = multiplyScalarProduct_V4andV4;
-            var actual = v4.Multiply_ScalarProduct(v4);
+            var actual = v4.Multiply_ScalarProduct_ColumnWithRow(v4);
 
             Assert.AreEqual(expect, actual);
             ReSetSampleData();
