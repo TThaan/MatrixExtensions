@@ -130,6 +130,9 @@ namespace MatrixExtensions
         /// </summary>
         public static void Multiply_MatrixProduct(this float[,] arr, float[,] multiplier, float[,] result) // Pass result either (vgl IMartix.PerformantOperations) so there is no need to instantiate a new array here?
         {
+            // Reset the input matrix since in this method all result[i] are summed up and not newly defined.
+            result.ForEach(x => x = 0);
+
             int a = arr.GetLength(0);
             int b = arr.GetLength(1);   // arr.GetLength(1) = multiplier.GetLength(0)
             int b2 = multiplier.GetLength(1);
@@ -173,6 +176,9 @@ namespace MatrixExtensions
         /// </summary>
         public static void Multiply_RowVectorWithMatrix(this float[] arr, float[,] multiplier, float[,] result)
         {
+            // Reset the input matrix since in this method all result[i] are summed up and not newly defined.
+            result.ForEach(x => x = 0);
+
             int a = arr.Length;
             int b2 = multiplier.GetLength(1);
 
@@ -192,8 +198,10 @@ namespace MatrixExtensions
         /// </summary>
         public static void Multiply_MatrixWithColumnVector(this float[,] arr, float[] multiplier, float[] result)
         {
-            // Don't just call above method but repeat code here due to the performance drop of method calls. So ignore DRY!
+            // Reset the input matrix since in this method all result[i] are summed up and not newly defined.
+            result.ForEach(x => x = 0);
 
+            // Don't just call above method but repeat code here due to the performance drop of method calls. So ignore DRY!
             int a = arr.GetLength(0);
             int b = arr.GetLength(1);
 
