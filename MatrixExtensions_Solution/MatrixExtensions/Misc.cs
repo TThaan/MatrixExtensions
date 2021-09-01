@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace MatrixExtensions
+﻿namespace MatrixExtensions
 {
     public static class Misc
     {

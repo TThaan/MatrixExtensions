@@ -503,48 +503,6 @@ namespace MatrixExtensions
 
         return arr;
     }
-    //    public static float[,,] ForEach(this float[,,] arr, Func<float, float> func)
-    //    {
-    //        int a = arr.GetLength(0);
-    //        int b = arr.GetLength(1);
-    //        int c = arr.GetLength(2);
-
-    //        for (int i = 0; i < a; i++)
-    //        {
-    //            for (int j = 0; j < b; j++)
-    //            {
-    //                for (int k = 0; k < c; k++)
-    //                {
-    //                    arr[i, j, k] = func(arr[i, j, k]);
-    //                }
-    //            }
-    //        }
-
-    //        return arr;
-    //    }
-    //    public static float[,,,] ForEach(this float[,,,] arr, Func<float, float> func)
-    //    {
-    //        int a = arr.GetLength(0);
-    //        int b = arr.GetLength(1);
-    //        int c = arr.GetLength(2);
-    //        int d = arr.GetLength(3);
-
-    //        for (int i = 0; i < a; i++)
-    //        {
-    //            for (int j = 0; j < b; j++)
-    //            {
-    //                for (int k = 0; k < c; k++)
-    //                {
-    //                    for (int l = 0; l < d; l++)
-    //                    {
-    //                        arr[i, j, k, l] = func(arr[i, j, k, l]);
-    //                    }
-    //                }
-    //            }
-    //        }
-
-    //        return arr;
-    //    }
 
     //    public static bool Equals(this float[] arr, float[] other)
     //    {
@@ -569,50 +527,6 @@ namespace MatrixExtensions
     //            {
     //                if (arr[i, j] != other[i, j])
     //                    return false;
-    //            }
-    //        }
-
-    //        return true;
-    //    }
-    //    public static bool Equals(this float[,,] arr, float[,,] other)
-    //    {
-    //        int a = arr.GetLength(0);
-    //        int b = arr.GetLength(1);
-    //        int c = arr.GetLength(2);
-
-    //        for (int i = 0; i < a; i++)
-    //        {
-    //            for (int j = 0; j < b; j++)
-    //            {
-    //                for (int k = 0; k < c; k++)
-    //                {
-    //                    if (arr[i, j, k] != other[i, j, k])
-    //                        return false;
-    //                }
-    //            }
-    //        }
-
-    //        return true;
-    //    }
-    //    public static bool Equals(this float[,,,] arr, float[,,,] other)
-    //    {
-    //        int a = arr.GetLength(0);
-    //        int b = arr.GetLength(1);
-    //        int c = arr.GetLength(2);
-    //        int d = arr.GetLength(3);
-
-    //        for (int i = 0; i < a; i++)
-    //        {
-    //            for (int j = 0; j < b; j++)
-    //            {
-    //                for (int k = 0; k < c; k++)
-    //                {
-    //                    for (int l = 0; l < d; l++)
-    //                    {
-    //                        if (arr[i, j, k, l] != other[i, j, k, l])
-    //                            return false;
-    //                    }
-    //                }
     //            }
     //        }
 
