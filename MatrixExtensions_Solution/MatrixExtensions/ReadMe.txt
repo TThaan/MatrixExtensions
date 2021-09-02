@@ -1,1 +1,1 @@
-﻿Still thinking about if an 'extended' array should keep it's values or be the transformed result..
+﻿Task: Adapt unit test methods to new performant operations!
