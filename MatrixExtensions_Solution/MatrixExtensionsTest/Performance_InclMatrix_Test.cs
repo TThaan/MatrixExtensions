@@ -52,7 +52,8 @@ namespace MatrixExtensionsTest
         public void Test_TwoVectors_Add()
         {
             var expect = add_V4andV4;
-            var actual = v4.Add(v4);
+            float[] actual = new float[expect.Length];
+            v4.Add(v4, actual);
 
             CollectionAssert.AreEqual(expect, actual);
             ReSetSampleData();
@@ -61,7 +62,8 @@ namespace MatrixExtensionsTest
         public void Test_TwoVectors_Subtract()
         {
             var expect = subtract_V4andV4;
-            var actual = v4.Subtract(v4);
+            float[] actual = new float[expect.Length]; 
+            v4.Subtract(v4, actual);
 
             CollectionAssert.AreEqual(expect, actual);
             ReSetSampleData();
@@ -70,7 +72,8 @@ namespace MatrixExtensionsTest
         public void Test_TwoVectors_MultiplyElementwise()
         {
             var expect = multiplyElementwise_V4andV4;
-            var actual = v4.Multiply_Elementwise(v4);
+            float[] actual = new float[expect.Length];
+            v4.Multiply_Elementwise(v4, actual);
 
             CollectionAssert.AreEqual(expect, actual);
             ReSetSampleData();
@@ -79,7 +82,8 @@ namespace MatrixExtensionsTest
         public void Test_TwoVectors_MultiplyScalarProduct()
         {
             var expect = multiplyScalarProduct_V4andV4;
-            var actual = v4.Multiply_ScalarProduct_ColumnWithRow(v4);
+            float actual = 0;
+            v4.Multiply_ScalarProduct_RowWithColumn(v4, actual);
 
             Assert.AreEqual(expect, actual);
             ReSetSampleData();
@@ -88,7 +92,8 @@ namespace MatrixExtensionsTest
         public void Test_TwoVectors_MultiplyCrosswise()
         {
             var expect = multiplyCrosswise_V3andV3;
-            var actual = v3.Multiply_Crosswise(v3);
+            float[] actual = new float[expect.Length];
+            v3.Multiply_Crosswise(v3, actual);
 
             CollectionAssert.AreEqual(expect, actual);
 
@@ -98,7 +103,8 @@ namespace MatrixExtensionsTest
         public void Test_TwoVectors_Divide()
         {
             var expect = divide_V4andV4;
-            var actual = v4.Divide(v4);
+            float[] actual = new float[expect.Length];
+            v4.Divide(v4, actual);
 
             CollectionAssert.AreEqual(expect, actual);
             ReSetSampleData();
@@ -112,7 +118,8 @@ namespace MatrixExtensionsTest
         public void Test_TwoMatrices_Add()
         {
             var expect = add_M42andM42;
-            var actual = m42.Add(m42);
+            float[,] actual = new float[expect.GetLength(0), expect.GetLength(1)];
+            m42.Add(m42, actual);
 
             Assert.IsTrue(ArrayComparer.AreEqual(expect, actual));
             ReSetSampleData();
@@ -121,7 +128,8 @@ namespace MatrixExtensionsTest
         public void Test_TwoMatrices_Subtract()
         {
             var expect = subtract_M42andM42;
-            var actual = m42.Subtract(m42);
+            float[,] actual = new float[expect.GetLength(0), expect.GetLength(1)];
+            m42.Subtract(m42, actual);
 
             Assert.IsTrue(ArrayComparer.AreEqual(expect, actual));
             ReSetSampleData();
@@ -130,7 +138,8 @@ namespace MatrixExtensionsTest
         public void Test_TwoMatrices_MultiplyElementwise()
         {
             var expect = multiplyElementwise_M42andM42;
-            var actual = m42.Multiply_Elementwise(m42);
+            float[,] actual = new float[expect.GetLength(0), expect.GetLength(1)];
+            m42.Multiply_Elementwise(m42, actual);
 
             Assert.IsTrue(ArrayComparer.AreEqual(expect, actual));
             ReSetSampleData();
@@ -139,12 +148,14 @@ namespace MatrixExtensionsTest
         public void Test_TwoMatrices_MultiplyMatrixProduct()
         {
             var expect = multiply_MatrixWithMatrix_M42andM42T;
-            var actual = m42.Multiply_MatrixProduct(m42T);
+            float[,] actual = new float[expect.GetLength(0), expect.GetLength(1)];
+            m42.Multiply_MatrixProduct(m42T, actual);
 
             Assert.IsTrue(ArrayComparer.AreEqual(expect, actual));
 
             var expect2 = multiply_MatrixWithMatrix_M42TandM42;
-            var actual2 = m42T.Multiply_MatrixProduct(m42);
+            float[,] actual2 = new float[expect.GetLength(0), expect.GetLength(1)];
+            m42T.Multiply_MatrixProduct(m42, actual2);
 
             Assert.IsTrue(ArrayComparer.AreEqual(expect2, actual2));
 
@@ -154,7 +165,8 @@ namespace MatrixExtensionsTest
         public void Test_TwoMatrices_Divide()
         {
             var expect = divide_M42andM42;
-            var actual = m42.Divide(m42);
+            float[,] actual = new float[expect.GetLength(0), expect.GetLength(1)];
+            m42.Divide(m42, actual);
 
             Assert.IsTrue(ArrayComparer.AreEqual(expect, actual));
             ReSetSampleData();
@@ -168,31 +180,36 @@ namespace MatrixExtensionsTest
         public void Test_VectorAndMatrix_MultiplyMatrixProduct()
         {
             var expect = multiply_RowVectorWithMatrix_V4andM42Col;
-            var actual = v4.Multiply_RowVectorWithMatrix(m4Col);
+            float[,] actual = new float[expect.GetLength(0), expect.GetLength(1)];
+            v4.Multiply_RowVectorWithMatrix(m4Col, actual);
 
             Assert.IsTrue(ArrayComparer.AreEqual(expect, actual));
             ReSetSampleData();
 
             var expect2 = multiply_ColumnVectorWithMatrix_V4andM4Row;
-            var actual2 = v4.Multiply_ColumnVectorWithMatrix(m4Row);
+            float[,] actual2 = new float[expect.GetLength(0), expect.GetLength(1)];
+            v4.Multiply_ColumnVectorWithMatrix(m4Row, actual2);
 
             Assert.IsTrue(ArrayComparer.AreEqual(expect2, actual2));
             ReSetSampleData();
 
             var expect3 = multiply_MatrixWithColumnVector_M42RowAndV4;
-            var actual3 = m4Row.Multiply_MatrixWithColumnVector(v4);
+            float[] actual3 = new float[expect.GetLength(0)];
+            m4Row.Multiply_MatrixWithColumnVector(v4, actual3);
 
             Assert.IsTrue(ArrayComparer.AreEqual(expect3, actual3));
             ReSetSampleData();
 
             var expect3b = multiply_MatrixWithColumnVector_M42DoubleRowAndV4;
-            var actual3b = m4DoubleRow.Multiply_MatrixWithColumnVector(v4);
+            float[] actual3b = new float[expect.GetLength(0)];
+            m4DoubleRow.Multiply_MatrixWithColumnVector(v4, actual3b);
 
             Assert.IsTrue(ArrayComparer.AreEqual(expect3b, actual3b));
             ReSetSampleData();
 
             var expect4 = multiply_MatrixWithRowVector_M42ColAndV4;
-            var actual4 = m4Col.Multiply_MatrixWithRowVector(v4);
+            float[,] actual4 = new float[expect.GetLength(0), expect.GetLength(1)];
+            m4Col.Multiply_MatrixWithRowVector(v4, actual4);
 
             Assert.IsTrue(ArrayComparer.AreEqual(expect4, actual4));
             ReSetSampleData();
@@ -201,7 +218,8 @@ namespace MatrixExtensionsTest
         public void Test_AsMatrixWithOneColumn()
         {
             var expect = asMatrixWithOneColumn_v4;
-            var actual = v4.AsMatrixWithOneColumn();
+            float[,] actual = new float[expect.GetLength(0), 1];
+            v4.AsMatrixWithOneColumn(actual);
 
             Assert.IsTrue(ArrayComparer.AreEqual(expect, actual));
             ReSetSampleData();
@@ -210,7 +228,8 @@ namespace MatrixExtensionsTest
         public void Test_AsMatrixWithOneRow()
         {
             var expect = asMatrixWithOneRow_v4;
-            var actual = v4.AsMatrixWithOneRow();
+            float[,] actual = new float[1, expect.GetLength(0)];
+            v4.AsMatrixWithOneRow(actual);
 
             Assert.IsTrue(ArrayComparer.AreEqual(expect, actual));
             ReSetSampleData();

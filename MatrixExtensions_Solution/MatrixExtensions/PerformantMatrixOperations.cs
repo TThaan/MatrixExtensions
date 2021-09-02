@@ -110,7 +110,24 @@ namespace MatrixExtensions
                 }
             }
         }
+        public static void Multiply_ScalarProduct_RowWithColumn(this float[] columnVector, float[] multipliedRowVector, float result)
+        {
+            result = 0;
 
+            int a = columnVector.Length;
+            int b = multipliedRowVector.Length;
+
+            for (int i = 0; i < b; i++)
+            {
+                for (int j = 0; j < a; j++)
+                {
+                    result += columnVector[j] * multipliedRowVector[i];
+                }
+            }
+        }
+        /// <summary>
+        /// vgl: Matrix Multiplication
+        /// </summary>
         public static void Multiply_ScalarProduct_ColumnWithRow(this float[] columnVector, float[] multipliedRowVector, float[,] result)
         {
             int a = columnVector.Length;
@@ -267,6 +284,27 @@ namespace MatrixExtensions
                 {
                     result[i, j] = func(arr[i, j]);
                 }
+            }
+        }
+
+        public static void AsMatrixWithOneColumn(this float[] arr, float[,] result)
+        {
+            int arrLength = arr.Length;
+            //float[,] result = new float[arrLength, 1];
+
+            for (int i = 0; i < arrLength; i++)
+            {
+                result[i, 0] = arr[i];
+            }
+        }
+        public static void AsMatrixWithOneRow(this float[] arr, float[,] result)
+        {
+            int arrLength = arr.Length;
+            //float[,] result = new float[1, arrLength];
+
+            for (int i = 0; i < arrLength; i++)
+            {
+                result[0, i] = arr[i];
             }
         }
     }
